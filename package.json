@@ -1,0 +1,52 @@
+{
+  "name": "qiniu-webpack-plugin",
+  "version": "0.0.1",
+  "description": "A webpack qiniu cdn plugin, Simplifies uploade your front to Qiniu and refresh cache",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d dist",
+    "lint": "eslint --ext .js, src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xalexec/QiniuWebpackPlugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "cdn",
+    "qiniu-webpack-plugin",
+    "qiniu-cdn-webpack-plugin"
+  ],
+  "author": "alex <xalexec@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xalexec/QiniuWebpackPlugin/issues"
+  },
+  "homepage": "https://github.com/xalexec/QiniuWebpackPlugin#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "dependencies": {
+    "urllib": "^2.22.0",
+    "crc32": "^0.2.2",
+    "formstream": "^1.1.0",
+    "sync-request": "^4.1.0",
+    "urlencode": "^1.1.0",
+    "inquirer": "^3.1.1"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
+}
