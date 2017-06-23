@@ -9,6 +9,7 @@ class QiniuWebpackPlugin {
     if (!options || !options.ACCESS_KEY || !options.SECRET_KEY) {
       throw new Error('ACCESS_KEY,SECRET_KEY,bucket and domain isn\'t allow empty')
     }
+    if (options.domain.slice(-1) !== '/') options.domain += '/'
     this.options = Object.assign({
       afterDays: 30,
       refreshUrls: ['index.html'],
@@ -20,11 +21,10 @@ class QiniuWebpackPlugin {
 
   apply (compiler) {
     compiler.plugin('after-emit', (compilation, callback) => {
-      const assets = compilation.assets
-      const {bucket, refreshUrls, afterDays, excludes} = this.options
-      let {domain} = this.options
-      if (domain.slice(-1) !== '/') domain += '/'
+      const {assets} = compilation
+      const {bucket, refreshUrls, afterDays, excludes, domain} = this.options
       const promises = []
+
       const files = Object.keys(assets)
         .filter((filename) => {
           return assets[filename].emitted && excludes.every((exclude) => { return filename.slice(-exclude.length) !== exclude })
@@ -57,7 +57,7 @@ class QiniuWebpackPlugin {
             {
               type: 'confirm',
               name: 'refreshUrl',
-              message: '是否刷新 index.html 的缓存?',
+              message: '是否刷新缓存?',
               default: true
             },
             {
@@ -78,7 +78,7 @@ class QiniuWebpackPlugin {
               qiniu.cdn.refreshUrls(
                 refreshUrls.map((url) => {
                   return domain + url
-                })
+                }).concat(domain)
               )
               console.log(refreshUrls.reduce((sum, url) => { return sum + `${url} ` }) + '刷新成功')
             }
