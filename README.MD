@@ -1,7 +1,7 @@
-QiniuWebpackPlugin
+qiniu-webpack-plugin
 ====
 
-[![npm version](https://img.shields.io/npm/v/public-cdn-webpack-plugin.svg)](https://www.npmjs.org/package/public-cdn-webpack-plugin)
+[![npm version](https://img.shields.io/npm/v/qiniuu-webpack-plugin.svg)](https://www.npmjs.org/package/iniuu-webpack-plugin)
 
 ## Intro
 
