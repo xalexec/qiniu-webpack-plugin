@@ -54,12 +54,14 @@ var QiniuWebpackPlugin = function () {
                     excludes = _options.excludes,
                     domain = _options.domain,
                     ACCESS_KEY = _options.ACCESS_KEY,
-                    SECRET_KEY = _options.SECRET_KEY;
+                    SECRET_KEY = _options.SECRET_KEY,
+                    zone = _options.zone;
 
                 var promises = [];
+                var publicPath = compilation.options.output.publicPath.slice(1);
                 var mac = new qiniu.auth.digest.Mac(ACCESS_KEY, SECRET_KEY);
                 var config = new qiniu.conf.Config();
-                config.zone = qiniu.zone.Zone_z0;
+                config.zone = qiniu.zone[zone];
                 var bucketManager = new qiniu.rs.BucketManager(mac, config);
                 var cdnManager = new qiniu.cdn.CdnManager(mac);
                 var files = (0, _keys2.default)(assets).filter(function (filename) {
@@ -67,15 +69,13 @@ var QiniuWebpackPlugin = function () {
                         return filename.slice(-exclude.length) !== exclude;
                     });
                 }).map(function (filename) {
-                    var options = {
-                        scope: bucket
-                    };
-                    var putPolicy = new qiniu.rs.PutPolicy(options);
+                    var fullPath = publicPath + filename;
+                    var putPolicy = new qiniu.rs.PutPolicy({ scope: bucket });
                     var uploadToken = putPolicy.uploadToken(mac);
                     var formUploader = new qiniu.form_up.FormUploader(config);
                     var putExtra = new qiniu.form_up.PutExtra();
                     var promise = new _promise2.default(function (resolve, reject) {
-                        formUploader.putFile(uploadToken, filename, assets[filename].existsAt, putExtra, function (err, ret) {
+                        formUploader.putFile(uploadToken, fullPath, assets[filename].existsAt, putExtra, function (err, ret) {
                             if (!err) {
                                 resolve(ret);
                             } else {
@@ -85,8 +85,9 @@ var QiniuWebpackPlugin = function () {
                         });
                     });
                     promises.push(promise);
-                    return filename;
+                    return fullPath;
                 });
+
                 _promise2.default.all(promises).then(function (res) {
                     callback();
                     var questions = [{
@@ -108,8 +109,8 @@ var QiniuWebpackPlugin = function () {
                     inquirer.prompt(questions).then(function (answers) {
                         if (answers.refreshUrl) {
                             cdnManager.refreshUrls(refreshUrls.map(function (url) {
-                                return domain + url;
-                            }).concat(domain));
+                                return domain + publicPath + url;
+                            }).concat(domain + publicPath));
                             console.log(refreshUrls.reduce(function (sum, url) {
                                 return sum + (url + ' ');
                             }) + '刷新成功');
@@ -121,7 +122,7 @@ var QiniuWebpackPlugin = function () {
                             console.log('预取 js css image 成功');
                         }
                         if (answers.delExpired) {
-                            bucketManager.listPrefix(bucket, false, false, false, false, function (err, result, res) {
+                            bucketManager.listPrefix(bucket, { limit: 1000 }, function (err, result, res) {
                                 if (err) {
                                     console.log(err);
                                     return;

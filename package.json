@@ -1,6 +1,6 @@
 {
     "name": "qiniuu-webpack-plugin",
-    "version": "0.0.2",
+    "version": "0.0.5",
     "description": "A webpack qiniu cdn plugin, Simplifies uploade your front to Qiniu and refresh cache",
     "main": "dist/index.js",
     "scripts": {
@@ -38,11 +38,6 @@
         "eslint-plugin-standard": "^3.0.1"
     },
     "dependencies": {
-        "urllib": "^2.22.0",
-        "crc32": "^0.2.2",
-        "formstream": "^1.1.0",
-        "sync-request": "^4.1.0",
-        "urlencode": "^1.1.0",
         "inquirer": "^3.1.1",
         "qiniu": "^7.0.5"
     },
