@@ -37,7 +37,7 @@ if (config.build.deployToQiniu) {
 |华南|`Zone_z2`|
 |北美|`Zone_na0`|
 
-[具体见下面的文档](https://github.com/qiniu/nodejs-sdk/blob/7aadf972579bee5d6041b459515673987956cfb7/docs/nodejs-sdk-v7.md)
+[具体见这里](https://github.com/qiniu/nodejs-sdk/blob/7aadf972579bee5d6041b459515673987956cfb7/docs/nodejs-sdk-v7.md)
 
 append to config.js
 ```
